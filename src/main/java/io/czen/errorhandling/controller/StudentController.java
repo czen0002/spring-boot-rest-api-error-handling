@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping(value = "/v1")
 public class StudentController {
@@ -16,7 +18,7 @@ public class StudentController {
     }
 
     @PostMapping(value = "/student", consumes = "application/json")
-    public ResponseEntity<Student> postStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> postStudent(@RequestBody @Valid Student student) {
         return new ResponseEntity<>(new Student(student.getId(), student.getFirstName(), student.getLastName()), HttpStatus.CREATED);
     }
 }
