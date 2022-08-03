@@ -17,6 +17,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	// Lombok
+	compileOnly "org.projectlombok:lombok:$LOMBOK_VERSION"
+	annotationProcessor "org.projectlombok:lombok:$LOMBOK_VERSION"
+
+	testCompileOnly "org.projectlombok:lombok:$LOMBOK_VERSION"
+	testAnnotationProcessor "org.projectlombok:lombok:$LOMBOK_VERSION"
 }
 
 tasks.named('test') {
