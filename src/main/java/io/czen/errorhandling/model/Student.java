@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Setter
 public class Student implements Serializable {
 
-    @NotNull
+    @NotNull(message = "Student Id must be provided")
     private Long id;
 
     private String firstName;
