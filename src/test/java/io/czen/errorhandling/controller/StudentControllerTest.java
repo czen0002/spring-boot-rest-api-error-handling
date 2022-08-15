@@ -7,15 +7,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static javax.servlet.http.HttpServletResponse.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 @WebMvcTest
 public class StudentControllerTest {
 
-    private static final String GET_STUDENT_PATH = "/v1/student";
     private static final String BAD_REQUEST = "BAD_REQUEST";
 
     @Autowired
@@ -54,5 +52,12 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.errorList[0].code").value("400"))
                 .andExpect(jsonPath("$.errorList[0].detail")
                         .value("must be greater than or equal to 1"));
+    }
+
+    @Test
+    public void getStudentThrow401Exception() throws Exception {
+        String url = "/v1/student?studentId=0";
+        mockMvc.perform(MockMvcRequestBuilders.get(url))
+                .andExpect(status().is(SC_UNAUTHORIZED));
     }
 }
