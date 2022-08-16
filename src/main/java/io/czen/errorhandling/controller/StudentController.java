@@ -23,7 +23,6 @@ public class StudentController {
 
     @GetMapping(value = "/student")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PreAuthorize("hasRole('USER')")
     public Student getStudent(@RequestParam("studentId") @Min(1) @Max(100) Long studentId) {
         return new Student(studentId, "Wayne", "Bruce");
     }
