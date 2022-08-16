@@ -13,8 +13,15 @@ public class SecurityConfig {
     @Bean
     @Autowired
     public SecurityFilterChain filterChain(HttpSecurity http, RestAuthenticationEntryPoint restAuthenticationEntryPoint) throws Exception {
-        http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic()
-                .authenticationEntryPoint(restAuthenticationEntryPoint);
+        http
+            .csrf()
+            .disable()
+            .authorizeRequests()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic()
+            .authenticationEntryPoint(restAuthenticationEntryPoint);
         return http.build();
     }
 }
