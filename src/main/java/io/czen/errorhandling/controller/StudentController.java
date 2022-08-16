@@ -2,6 +2,7 @@ package io.czen.errorhandling.controller;
 
 import io.czen.errorhandling.model.Student;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class StudentController {
 
     @GetMapping(value = "/student")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @PreAuthorize("hasRole('USER')")
     public Student getStudent(@RequestParam("studentId") @Min(1) @Max(100) Long studentId) {
         return new Student(studentId, "Wayne", "Bruce");
     }
