@@ -9,11 +9,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
@@ -26,6 +23,7 @@ public class SecurityConfig {
             RestAccessDeniedHandler restAccessDeniedHandler) throws Exception {
         http
             .httpBasic()
+            .authenticationEntryPoint(restAuthenticationEntryPoint)
             .and()
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, "/v1/student").hasRole("ADMIN")
