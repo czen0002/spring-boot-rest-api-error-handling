@@ -4,6 +4,7 @@ import io.czen.errorhandling.model.handler.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,8 +24,7 @@ public class SecurityConfig {
             .csrf()
             .disable()
             .authorizeRequests()
-            .anyRequest()
-            .authenticated()
+            .antMatchers(HttpMethod.POST, "/v1/student").hasRole("ADMIN")
             .and()
             .httpBasic()
             .authenticationEntryPoint(restAuthenticationEntryPoint);
@@ -43,6 +43,6 @@ public class SecurityConfig {
                 .password("{noop}password")
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(Arrays.asList(apiUser, admin));
+        return new InMemoryUserDetailsManager(apiUser, admin);
     }
 }
