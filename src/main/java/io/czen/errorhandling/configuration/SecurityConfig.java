@@ -1,5 +1,6 @@
 package io.czen.errorhandling.configuration;
 
+import io.czen.errorhandling.model.handler.RestAccessDeniedHandler;
 import io.czen.errorhandling.model.handler.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,15 +20,21 @@ public class SecurityConfig {
 
     @Bean
     @Autowired
-    public SecurityFilterChain filterChain(HttpSecurity http, RestAuthenticationEntryPoint restAuthenticationEntryPoint) throws Exception {
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            RestAuthenticationEntryPoint restAuthenticationEntryPoint,
+            RestAccessDeniedHandler restAccessDeniedHandler) throws Exception {
         http
-            .csrf()
-            .disable()
+            .httpBasic()
+            .and()
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, "/v1/student").hasRole("ADMIN")
             .and()
-            .httpBasic()
-            .authenticationEntryPoint(restAuthenticationEntryPoint);
+            .exceptionHandling()
+            .accessDeniedHandler(restAccessDeniedHandler)
+            .and()
+            .csrf()
+            .disable();
         return http.build();
     }
 
