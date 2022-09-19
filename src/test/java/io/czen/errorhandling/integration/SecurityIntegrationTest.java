@@ -19,9 +19,6 @@ import org.springframework.http.HttpEntity;
 import java.io.IOException;
 
 import static io.czen.errorhandling.testutil.Util.readFileAsString;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SecurityIntegrationTest {
@@ -56,7 +53,7 @@ public class SecurityIntegrationTest {
             Error responseError = response.getBody().getErrorList().get(0);
             Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
             Assertions.assertEquals(INVALID_CREDENTIALS, responseError.getTitle());
-            Assertions.assertEquals(String.valueOf(SC_UNAUTHORIZED), responseError.getCode());
+            Assertions.assertEquals(String.valueOf(HttpStatus.UNAUTHORIZED.value()), responseError.getCode());
         }
 
         @Test
@@ -67,7 +64,7 @@ public class SecurityIntegrationTest {
             Error responseError = response.getBody().getErrorList().get(0);
             Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
             Assertions.assertEquals(BAD_REQUEST, responseError.getTitle());
-            Assertions.assertEquals(String.valueOf(SC_BAD_REQUEST), responseError.getCode());
+            Assertions.assertEquals(String.valueOf(HttpStatus.BAD_REQUEST.value()), responseError.getCode());
         }
 
         @Test
@@ -78,7 +75,7 @@ public class SecurityIntegrationTest {
             Error responseError = response.getBody().getErrorList().get(0);
             Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
             Assertions.assertEquals(BAD_REQUEST, responseError.getTitle());
-            Assertions.assertEquals(String.valueOf(SC_BAD_REQUEST), responseError.getCode());
+            Assertions.assertEquals(String.valueOf(HttpStatus.BAD_REQUEST.value()), responseError.getCode());
         }
     }
 
@@ -111,7 +108,7 @@ public class SecurityIntegrationTest {
             Error responseError = response.getBody().getErrorList().get(0);
             Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
             Assertions.assertEquals(INVALID_CREDENTIALS, responseError.getTitle());
-            Assertions.assertEquals(String.valueOf(SC_UNAUTHORIZED), responseError.getCode());
+            Assertions.assertEquals(String.valueOf(HttpStatus.UNAUTHORIZED.value()), responseError.getCode());
         }
 
         @Test
@@ -125,7 +122,7 @@ public class SecurityIntegrationTest {
             Error responseError = response.getBody().getErrorList().get(0);
             Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
             Assertions.assertEquals(FORBIDDEN, responseError.getTitle());
-            Assertions.assertEquals(String.valueOf(SC_FORBIDDEN), responseError.getCode());
+            Assertions.assertEquals(String.valueOf(HttpStatus.FORBIDDEN.value()), responseError.getCode());
         }
 
         @Test
@@ -139,7 +136,7 @@ public class SecurityIntegrationTest {
             Error responseError = response.getBody().getErrorList().get(0);
             Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
             Assertions.assertEquals(BAD_REQUEST, responseError.getTitle());
-            Assertions.assertEquals(String.valueOf(SC_BAD_REQUEST), responseError.getCode());
+            Assertions.assertEquals(String.valueOf(HttpStatus.BAD_REQUEST.value()), responseError.getCode());
         }
 
         @Test
@@ -153,7 +150,7 @@ public class SecurityIntegrationTest {
             Error responseError = response.getBody().getErrorList().get(0);
             Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
             Assertions.assertEquals(BAD_REQUEST, response.getBody().getErrorList().get(0).getTitle());
-            Assertions.assertEquals(String.valueOf(SC_BAD_REQUEST), responseError.getCode());
+            Assertions.assertEquals(String.valueOf(HttpStatus.BAD_REQUEST.value()), responseError.getCode());
             Assertions.assertEquals("Invalid JSON request payload", responseError.getDetail());
         }
     }

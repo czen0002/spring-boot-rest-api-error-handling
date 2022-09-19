@@ -7,15 +7,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static io.czen.errorhandling.testutil.Util.readFileAsString;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -60,7 +58,7 @@ public class StudentControllerTest {
             mvc.perform(get(url).with(httpBasic("apiuser", "wrong-password")))
                     .andExpect(status().isUnauthorized())
                     .andExpect(jsonPath("$.errorList[0].title").value(INVALID_CREDENTIALS))
-                    .andExpect(jsonPath("$.errorList[0].code").value(SC_UNAUTHORIZED));
+                    .andExpect(jsonPath("$.errorList[0].code").value(HttpStatus.UNAUTHORIZED.value()));
         }
 
         @Test
@@ -69,7 +67,7 @@ public class StudentControllerTest {
             mvc.perform(get(url).with(httpBasic("apiuser", "password")))
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.errorList[0].title").value(BAD_REQUEST))
-                    .andExpect(jsonPath("$.errorList[0].code").value(String.valueOf(SC_BAD_REQUEST)));
+                    .andExpect(jsonPath("$.errorList[0].code").value(HttpStatus.BAD_REQUEST.value()));
         }
 
         @Test
@@ -78,7 +76,7 @@ public class StudentControllerTest {
             mvc.perform(get(url).with(httpBasic("apiuser", "password")))
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.errorList[0].title").value(BAD_REQUEST))
-                    .andExpect(jsonPath("$.errorList[0].code").value(String.valueOf(SC_BAD_REQUEST)));
+                    .andExpect(jsonPath("$.errorList[0].code").value(HttpStatus.BAD_REQUEST.value()));
         }
     }
 
@@ -105,7 +103,7 @@ public class StudentControllerTest {
                             .content(readFileAsString("student.json")))
                     .andExpect(status().isUnauthorized())
                     .andExpect(jsonPath("$.errorList[0].title").value(INVALID_CREDENTIALS))
-                    .andExpect(jsonPath("$.errorList[0].code").value(SC_UNAUTHORIZED));
+                    .andExpect(jsonPath("$.errorList[0].code").value(HttpStatus.UNAUTHORIZED.value()));
         }
 
         @Test
@@ -116,7 +114,7 @@ public class StudentControllerTest {
                             .content(readFileAsString("student.json")))
                     .andExpect(status().isForbidden())
                     .andExpect(jsonPath("$.errorList[0].title").value(FORBIDDEN))
-                    .andExpect(jsonPath("$.errorList[0].code").value(SC_FORBIDDEN));
+                    .andExpect(jsonPath("$.errorList[0].code").value(HttpStatus.FORBIDDEN.value()));
         }
 
         @Test
@@ -127,7 +125,7 @@ public class StudentControllerTest {
                             .content(readFileAsString("invalid_student.json")))
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.errorList[0].title").value(BAD_REQUEST))
-                    .andExpect(jsonPath("$.errorList[0].code").value(String.valueOf(SC_BAD_REQUEST)));
+                    .andExpect(jsonPath("$.errorList[0].code").value(HttpStatus.BAD_REQUEST.value()));
         }
 
         @Test
@@ -138,7 +136,7 @@ public class StudentControllerTest {
                             .content(readFileAsString("invalid_json_payload.json")))
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.errorList[0].title").value(BAD_REQUEST))
-                    .andExpect(jsonPath("$.errorList[0].code").value(String.valueOf(SC_BAD_REQUEST)))
+                    .andExpect(jsonPath("$.errorList[0].code").value(HttpStatus.BAD_REQUEST.value()))
                     .andExpect(jsonPath("$.errorList[0].detail").value("Invalid JSON request payload"));
         }
     }
